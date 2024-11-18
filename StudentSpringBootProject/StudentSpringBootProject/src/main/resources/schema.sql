@@ -1,0 +1,5 @@
+CREATE TABLE STUDENT (
+    id INT PRIMARY KEY ,
+    name VARCHAR(50),
+    dept VARCHAR(10)
+);

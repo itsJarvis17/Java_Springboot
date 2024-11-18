@@ -1,0 +1,7 @@
+1. Create springwebmvc project
+2. Add spring web mvc dependency
+3. Create your controllers and all buisness logic
+4. Add your project to tomcat server
+5. Configure your dispatcher servlet
+6. Configure your servlet to scan the classes in your pacakge
+7. If it doesn't work the add isELIgnored="false" in your jsp files

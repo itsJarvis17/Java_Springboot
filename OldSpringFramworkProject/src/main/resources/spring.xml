@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- bean definitions here -->
+    <bean id="jarvis" class="com.itsjarvis.Jarvis">
+        <constructor-arg name="version"  value="1.0-SNAPSHOT"/>
+        <constructor-arg name="jarvisFunctions"  ref="jarvis_functions"/>
+        <property name="version" value="1.0-SNAPSHOT"></property>
+        <property name="jarvisFunctions" ref="jarvis_functions">
+<!--            inner bean to avoid usage by other beans -->
+            <bean id="jarvis_functions" class="com.itsjarvis.JarvisFunctions"></bean>
+        </property>
+    </bean>
+
+
+</beans>
