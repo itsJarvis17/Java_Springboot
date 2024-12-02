@@ -46,9 +46,10 @@ public class SecurityConfig {
         http.csrf(customizer -> customizer.disable())// disable csrf
                 .authorizeHttpRequests(authorize->authorize.requestMatchers("/login","/register")
                 .permitAll().anyRequest().authenticated())// any request should be authenticated
-        //http.formLogin(Customizer.withDefaults());  // use default form login & can't be used when request is stateless
+                .oauth2Login(Customizer.withDefaults())
+                .formLogin(Customizer.withDefaults()) // use default form login & can't be used when request is stateless
                 .httpBasic(Customizer.withDefaults()) // allows to pass user login creds through HTTP request header
-                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                //.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
