@@ -1,0 +1,37 @@
+What is lambda expression? How to use it?
+Why enums are used to store constants over strings?
+What are streams?
+What is an iterator? When we use?
+Difference between list iterator and iterator?
+Difference between Hashmap and Hashtable?
+What is JDBC?
+What is marker interface?
+Why while loop is used in iterator over for loop?
+What is anonymous function()? What is Anonymous objects?
+How to hash null value in Hashmap?
+How to sort Hashset?
+Can we use aggregate function in MySQL query? Examples
+Write logic to sort strings in descending order. Explain logic
+Write streams to find duplicate number and highest number
+How to create services in springboot app. Explain from scratch
+Explain Full outer join
+Comparator and comparable
+What is spring initializer
+What is Actuator
+How spring project will be started from scratch? Folder structure
+What is difference in RESTController and Controller
+What ORMs used in your project
+What @Springbootapplication notation does
+What is monolithic architecture explain with example
+What is microservices architeture explain with example
+How to create custome exception in Spring/Java
+What are struts in database
+What if @Transaction fail how will you recover 
+What is difference between Exception and Error
+How will you enter large entries in SQL
+How will you check if record is there in DB
+How you log logs. How to set level
+How you solve production issues. Give one case
+Is is possible to remove embedded tomcat from springboot. If Yes how will you do that?
+How will you authenticate and authorize user
+Find avg of max two numbers from given list
