@@ -19,7 +19,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/")
+    @GetMapping("/home")
     public String home() {
         return "It works";
     }
