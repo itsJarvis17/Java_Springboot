@@ -16,7 +16,7 @@ Write streams to find duplicate number and highest number
 How to create services in springboot app. Explain from scratch
 Explain Full outer join
 Comparator and comparable
-What is spring initializer
+What is spring initializer 	
 What is Actuator
 How spring project will be started from scratch? Folder structure
 What is difference in RESTController and Controller
@@ -35,3 +35,18 @@ How you solve production issues. Give one case
 Is is possible to remove embedded tomcat from springboot. If Yes how will you do that?
 How will you authenticate and authorize user
 Find avg of max two numbers from given list
+What is indexing in SQL
+What is concurrent modifcation exception what collecitons can be used(ConcurrentHashMap, CopyOnWriteArrayList)
+
+Write SQL query to find count of employees based on project
+EmpId	Project	Salary	Variable
+121		P1		8000	500
+321		P2	10000	1000
+421			P1	12000	0
+521	P1	13000	100
+621	null	10000	0
+
+What spring version you have used in project
+What is difference between procedure and funtions
+How to handle exception in springboot (Exception handler to handle exception only from particular class) (Advise to handle exception throughout application)
+What is Optional class?
