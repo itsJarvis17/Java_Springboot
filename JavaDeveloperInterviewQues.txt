@@ -50,3 +50,1268 @@ What spring version you have used in project
 What is difference between procedure and funtions
 How to handle exception in springboot (Exception handler to handle exception only from particular class) (Advise to handle exception throughout application)
 What is Optional class?
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+What is lambda expression? How to use it? 
+->concise way to represent annonymous functions ()-> 
+
+Why enums are used to store constants over strings?
+-> improves code reliability, readibility, maintainence. Provide type safety
+
+What are streams?
+-> stream API is a way to process collection of objects. pipelined operations, no actual collection is modified
+
+What is an iterator? When we use?
+-> Iterator is an interface provided by java util each collection class will implement this interface when we want to iterate over collection of elements and during iteraton want to perform some operation like add, remove
+
+Difference between list iterator and iterator?
+-> iterator is global iterator list iterates over list only, iterator only iterates in forward whereas list iterator iterates on both sides, iterator has next, remove method, list iterator has add, remove, next previous
+cannot modify in iterator can modify and set in list iterator 
+
+Difference between Hashmap and Hashtable? 
+-> hashmap allows null values hashtable does not,hmap non synchronized, htable synchronized hmap used in single thread, htable used in multithread hmap non legacy, htable legacy
+
+What is JDBC?
+-> JDBC is a collection of APIs to connect your application with database. 
+
+7 steps of JDBC connection: 1. import packages 2. load driver 3. Register driver 4. connect driver 5. Create statement 6. execute statement 7. close connection 
+
+What is marker interface?
+-> Marker interface is an empty interface with no abastract methods. Just to hint the compiler that this is an inteface
+
+Why while loop is used in iterator over for loop?
+
+What is anonymous function()? What is Anonymous objects?
+-> Annonymous functions are those functions in entire application which don't have any name and executed only once. Anonumous objects are created only once without any instance variable. Best use when we want to execute annoymous function without creating object for eg new MyClass().doSomething();
+
+How to hash null value in Hashmap?
+To hash null value we use hashCode function provided by Object class in java. HashCode function will be like this o != null ? o.hashCode():0;
+Now we have got the index of element to insert It will check the if there is any element present at 0 index with with matching key if key matches it will update value with null or else create new value.
+
+How to sort Hashset?
+-> We can sort hash set using Treeset, using sorted stream, by implementing compareTo method in comparable interface
+
+Can we use aggregate function in MySQL query? Examples
+-> Yes we can use aggregate function, eg SUM, AVG, MAX, MIN
+
+Write logic to sort strings in descending order. Explain logic
+-> strings = ['A','ABC','AA','XX','ABCD','A'] compare(Obj obj1, Obj obj2)
+if(obj1<obj2) return +1 else if(obj1>obj2) return -1 else return 0;
+OR use -obj1.compareTo(obj2)
+
+Types of join
+-> Right Outer Join, Left outer Join, Full outer join, Cross join, Inner join
+
+Write streams to find duplicate number and highest number
+-> stream().filter(n->Collections.frequency(arr,n)>2).max()
+
+How to create services in springboot app. Explain from scratch
+->1. Create spring boot project using spring initializer as it provides all required depnedencies in springboot starter web
+2. Create Entity, REST controller, service, JPA repository
+3. do mapping for on controller to accept user requests and pass it to service. From service do call to JPA repository for any kind of CRUD operation
+4. From service return response to controller in form of JSON/XML  
+
+Explain Full outer join
+-> Full outer join is a type of join where data is taken from both the table irrespective of join condition
+
+Comparator and comparable
+-> Comparator provides custom sorting, comparable provides natural sorting order, Comparator does not affect original order, comparable does affect original order, comparator uses compare method, comparable uses compareTo method,
+
+What is spring initializer
+-> Spring initializer is a tool that is used to make production ready spring boot application with the option to add required dependencies. 
+
+What is Actuator
+-> Module to monitor and manage application with help of different metrices like health, metrices, info
+
+What is internationlization in java
+Internationalization(I18N) is the process of designing web applications in such a way that which provides support for various countries, various languages, and various currencies automatically without performing any change in the application is called Internationalization(I18N)
+
+What is difference in RESTController and Controller
+-> Both are controllers used to accept request from client only difference between them is REST controllers only return json response where as controller can return json response as well as view in mvc architecture
+
+What ORMs used in your project
+-> Object Relational Mappers are liberaries or tools used in OOP to communicate between programing language and databases by automatically mapping between two. Instead of writing queries developers can interact with a database through objects eg Hibernate, Django 
+
+What @Springbootapplication notation does 
+-> @springbootapplication annotation combining three core annotations: 
+1. EnableAutoConfiguration: Enables auto configure common dependencies allowing to reduce boilerplate code
+2. Configuration: Indicates that the class is a source of bean definitions for the application context
+3. ComponentScan: Enables component scanning to scan and create bean defined with @Controller, @Service, @Repository
+
+What is monolithic architecture explain with example
+->Monolithic architecture, in the context of software, refers to a traditional approach where an entire application is built as a single, unified unit.All components, including the user interface, business logic, and data management, are tightly integrated within one codebase
+Advantages: 1. Easy Debuging depends on size of code 2. Simplicity 3. Ease of maintainence 
+Disadvantages: 1. Difficult to debug if application size is large 2. Deployment challenges 3. Difficult to maintain of large codebase 
+What is microservices architeture explain with example
+-> Microservices architecture breaks down a large, monolithic application into smaller, independent services, each performing a specific function and communicating with each other
+Advantages: 1. Easy maintainence 2. Easy upgrade 3. Scalablity 4. Loose Coupling
+Disadvantages: 1. Complexity 2. Deployment 3. Testing
+
+How to create custome exception in Spring/Java
+->In Java by extending Exception class. To handle custom exception use either throw custom exception from method and use try catch in caller method.
+->In Springboot create custom exception class by extending Exception class. Create ExceptionHandler in ControllerAdvice to handle exception across application.
+public class MyCustomException extends RuntimeException {
+    private String errorCode;
+
+    public MyCustomException(String message, String errorCode) {
+        super(message);
+        this.errorCode = errorCode;
+    }
+
+    public String getErrorCode() {
+        return errorCode;
+    }
+}
+
+@Service
+public class MyService {
+    public void performAction(String data) {
+        if (data == null || data.isEmpty()) {
+            throw new MyCustomException("Input data cannot be empty", "INVALID_INPUT");
+        }
+        // ... further processing
+    }
+}
+
+@ControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(MyCustomException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST) // Or another appropriate HTTP status
+    public ResponseEntity<ErrorResponse> handleMyCustomException(MyCustomException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode(), ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    // You can add more @ExceptionHandler methods for other exception types
+    // @ExceptionHandler(MethodArgumentNotValidException.class)
+    // public ResponseEntity<ErrorResponse> handleValidationExceptions(...) { ... }
+}
+
+What are struts in database
+
+What if @Transaction fail how will you recover 
+If transaction fails use method with @Recover annotation. By configuring retry properties(max-attempts,initial-interval,multiplier,max-interval) in yaml/properties file.
+What is difference between Exception and Error
+-> Exception and Error both are sub class of throwable class. Exception are those conditions which can be anticipated and handled well in program. Error are those situations in program which can't be handled or can't be anticipated
+
+How will you enter large entries in SQL
+With BULK INSERT. It will take CSV file and converts it into a table
+
+How will you check if record is there in DB
+from service we can use instance of JPA repository. JPA repository provides variety of methods. in our case findById() we can use to check if the given id is already there in database. If id doesn't found then we can create that record.
+
+How you log logs. How to set level
+Using Logger (FINE,FINER,FINEST,INFO,SEVER,CONFIG,WARNING) or Slf4J (FATAL,ERROR,WARNING,INFO,DEBUG,TRACE)
+
+
+How you solve production issues. Give one case
+
+Is is possible to remove embedded tomcat from springboot. If Yes how will you do that?
+-> Yes it is possible to remove embedded tomcat from springboot. In pom.xml file we can create a tag <exclude></exclude> and exclude tomcat artifact
+
+How will you authenticate and authorize user
+Authentication:
+Authentication is the process of verifying a user's identity.
+1. Adding dependencies in project pom.xml
+2. Create SecurityConfig class and annotate with @Configuration @EnableWebSecurity
+3. Create bean of UserDetailsService and take data from database or in mem.
+4. Create bean of PassworEncoder to encrypt password.
+5. Create bean of SecurityFilterChain to authenticate all the request. It can be token based or basic auth
+
+Authorization:
+Authorization is the process of determining what an authenticated user is allowed to do.
+1. This can be done based on role based by giving user, admin role to the authenticated user.
+
+Find avg of max two numbers from given list
+->[8000,10000,12000,13000,10000]
+stream(arr).sort().collect(Collectors.toList())
+Math.max(list.get(-1), list.get(-2));
+
+What is indexing in SQL
+-> is a process of creating a special lookup table, also known as an index, that allows for faster retrieval of data from a database table
+
+What is concurrent modifcation exception what collecitons can be used(ConcurrentHashMap, CopyOnWriteArrayList)
+-> Concurrent modification exception occurs when collection is fail fast. When iterator is iterating over a collection it fails as soon as it finds there is some modification done on collection. eg CopyOnWriteArrayList and ConcurrentHashMap are used to avoid this condition
+
+Write SQL query to find count of employees based on project
+EmpId	Project	Salary	Variable
+121		P1		8000	500
+321		P2	10000	1000
+421			P1	12000	0
+521	P1	13000	100
+621	null	10000	0
+-> SELECT project,COUNT(empId) FROM EMPLOYEES GROUPBY Project
+
+What spring version you have used in project
+-> Spring version 6.1.13
+
+What is difference between procedure and funtions
+Functions calculate and return a single value based on input,
+while procedures perform actions or a series of actions, potentially with or without returning a value
+
+What is Optional class?
+-> to handle null values safely we use, With this we have methods to check if value is present orElse method if value is not present then to return some other value
+
+What is profiling?
+-> Profiling is property in springboot application where user can define properties tobe taken by application for different environments.User can create multiple .properties as per their environments and can use in main application properties. Define spring.active.profile in app.properties.
+
+Write java program to print occurence of character in string
+
+
+our need to split a monolithic application into microservices. What criteria would you use to decide on the service boundaries? Describe the process and challenges you would expect, and discuss common communication patterns (e.g., synchronous via REST vs. asynchronous via a message queue like RabbitMQ)
+> This is a **classic microservices architecture interview question** — let’s break it down step by step so you have a strong, structured answer when asked in interviews 👇
+
+---
+
+## 🔹 1. Criteria to Decide Service Boundaries
+
+The key is to **break the monolith into smaller, independently deployable services** without over-fragmenting.
+
+**Main criteria:**
+
+1. **Business Domain (Domain-Driven Design - DDD)**
+
+   * Identify **bounded contexts** → each service should represent a business capability.
+   * Example: In an e-commerce app → `User Service`, `Order Service`, `Inventory Service`, `Payment Service`.
+
+2. **Data Ownership**
+
+   * Each service should own its **own database schema** (no sharing).
+   * Example: `Order Service` has its own `orders` table, not accessing `User` or `Inventory` DB directly.
+
+3. **Change Frequency & Team Autonomy**
+
+   * Services that change frequently together should belong to the same service.
+   * Avoid splitting tightly coupled functionalities unnecessarily.
+
+4. **Scalability Needs**
+
+   * Split components that have different scaling requirements.
+   * Example: `Search Service` (high read load) may need to scale differently than `User Profile Service`.
+
+5. **Non-functional requirements**
+
+   * Security, compliance, data sensitivity, performance can also drive boundaries.
+
+---
+
+## 🔹 2. Process to Split Monolith → Microservices
+
+**Step-by-step approach:**
+
+1. **Analyze monolith modules**
+
+   * Look at package/module boundaries, business workflows, and database schemas.
+2. **Identify bounded contexts**
+
+   * Use DDD techniques like **Event Storming** or **Business Capability Mapping**.
+3. **Carve out one service at a time**
+
+   * Start with less critical, easier-to-isolate modules → gain confidence.
+   * E.g., move `Notification` or `Reporting` out first.
+4. **Define API contracts**
+
+   * REST APIs, gRPC, or messaging events.
+5. **Database decoupling**
+
+   * Introduce database per service → avoid shared schema.
+   * Use data replication or event-driven updates if needed.
+6. **Implement communication patterns**
+
+   * Choose between synchronous and asynchronous depending on business needs.
+7. **Deploy independently**
+
+   * Set up CI/CD pipelines for each service.
+
+---
+
+## 🔹 3. Challenges You’ll Face
+
+1. **Data consistency**
+
+   * Monoliths rely on single DB transactions; microservices need distributed transaction strategies.
+   * Solution → Eventual consistency, Saga pattern, or Outbox pattern.
+
+2. **Increased complexity**
+
+   * Network calls replace in-memory calls → latency, retries, timeouts.
+   * Need **service discovery, API gateway, monitoring**.
+
+3. **Operational overhead**
+
+   * Logging, tracing, deployment pipelines, scaling each service independently.
+
+4. **Team alignment**
+
+   * Developers need to shift mindset from shared DB to service ownership.
+
+---
+
+## 🔹 4. Common Communication Patterns
+
+### **Synchronous (REST/gRPC)**
+
+✅ Good for:
+
+* Request-response interactions (e.g., "Get user details").
+* Easy debugging & simple workflows.
+
+❌ Risks:
+
+* Tight coupling → if `User Service` is down, `Order Service` fails.
+* Higher latency in chained service calls.
+
+---
+
+### **Asynchronous (Messaging with RabbitMQ/Kafka)**
+
+✅ Good for:
+
+* Event-driven workflows (e.g., `OrderPlaced` event triggers `Inventory Service` & `Payment Service`).
+* Loose coupling, better scalability, improved resilience.
+
+❌ Risks:
+
+* Harder to debug.
+* Eventual consistency → not suitable if strict ACID transaction is required.
+
+---
+
+## 🔹 5. Example Answer Structure in Interview
+
+👉 If asked, you can summarize like this:
+
+> “I would use **business domain boundaries** (via Domain-Driven Design) and **data ownership** as the primary criteria to split the monolith into microservices. Each service should map to a bounded context, own its data, and be independently deployable.
+>
+> The process typically starts with identifying natural boundaries, carving out one service at a time, introducing API contracts, and decoupling databases.
+>
+> Challenges I’d expect are **data consistency, network overhead, and operational complexity**. These can be addressed using **Saga patterns, service discovery, and centralized logging/monitoring**.
+>
+> For communication, I’d use **synchronous REST/gRPC** where immediate response is needed, and **asynchronous messaging (RabbitMQ/Kafka)** for event-driven workflows where loose coupling and scalability are priorities.”
+
+---
+
+Would you like me to also prepare a **diagram (with services + communication flow)** you can use in an interview whiteboard explanation? That often makes the answer much stronger.
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Explain the inner workings of Spring's @Transactional annotation. What are the different propagation levels, and how would you troubleshoot an issue where a transaction does not roll back as expected
+This is one of the **most asked Spring interview questions** — let’s go deep but in a structured way 👇
+
+---
+
+## 🔹 1. How `@Transactional` Works Internally
+
+When you put `@Transactional` on a method/class:
+
+1. **Proxy Creation**
+
+   * Spring AOP creates a **proxy** (JDK dynamic proxy if you have an interface, or CGLIB proxy otherwise).
+   * When you call a method, the proxy intercepts it.
+   * If a transaction is required, Spring delegates to a **`PlatformTransactionManager`** (usually `DataSourceTransactionManager` or `JpaTransactionManager`).
+
+2. **Transaction Lifecycle**
+
+   * Before method execution: Proxy asks TransactionManager → "Do I need a transaction?"
+
+     * If yes → starts or joins an existing transaction.
+   * Method executes inside that transactional context.
+   * After method execution:
+
+     * If no exception → commit.
+     * If `RuntimeException`/`Error` → rollback by default.
+     * If checked exception → commit by default (unless configured via `rollbackFor`).
+
+3. **Transaction Context Bound to Thread**
+
+   * Uses **`TransactionSynchronizationManager`** to bind the connection/EntityManager to the current thread.
+   * Ensures all DB operations in that thread participate in the same transaction.
+
+---
+
+## 🔹 2. Propagation Levels in `@Transactional`
+
+Propagation defines **how a method should behave if a transaction already exists**:
+
+| Propagation            | Behavior                                                                                          |
+| ---------------------- | ------------------------------------------------------------------------------------------------- |
+| **REQUIRED** (default) | Joins current transaction if exists; otherwise creates new one.                                   |
+| **REQUIRES_NEW**       | Suspends existing transaction, always creates a new one.                                          |
+| **SUPPORTS**           | Runs in a transaction if one exists, otherwise non-transactional.                                 |
+| **MANDATORY**          | Must run inside an existing transaction, else throws `Exception`.                                 |
+| **NEVER**              | Must not run inside a transaction; throws `Exception` if one exists.                              |
+| **NOT_SUPPORTED**      | Suspends existing transaction, runs non-transactional.                                            |
+| **NESTED**             | Creates a nested transaction with savepoints; can rollback independently (depends on DB support). |
+
+---
+
+## 🔹 3. Why a Transaction Might Not Roll Back
+
+This is the **tricky part interviewers test**. Common pitfalls:
+
+1. **Checked vs Unchecked Exception**
+
+   * By default, **rollback happens only for `RuntimeException` or `Error`**.
+   * If you throw a checked exception (like `IOException`), Spring commits unless you configure:
+
+     ```java
+     @Transactional(rollbackFor = Exception.class)
+     ```
+
+2. **Calling Method Internally (self-invocation problem)**
+
+   * If you call a `@Transactional` method **from another method in the same class**, the proxy is bypassed → no transaction applied.
+
+3. **Wrong Transaction Manager**
+
+   * E.g., using `JpaTransactionManager` for JDBC operations → rollback may not behave as expected.
+
+4. **Final/Private Method**
+
+   * Proxies only work on `public` methods.
+   * `@Transactional` on `private` or `final` methods has no effect.
+
+5. **Propagation Level**
+
+   * If using `REQUIRES_NEW`, outer rollback doesn’t affect inner transaction.
+   * With `NESTED`, behavior depends on savepoint support.
+
+6. **No Runtime Exception Actually Thrown**
+
+   * If exception is caught and not rethrown, Spring sees success → commits.
+
+---
+
+## 🔹 4. Troubleshooting Steps
+
+When rollback doesn’t happen:
+
+1. **Check logs**
+
+   * Enable DEBUG logs for `org.springframework.transaction`.
+   * You’ll see messages like `Creating new+ transaction`, `Initiating transaction commit`, etc.
+
+2. **Verify exception type**
+
+   * Confirm it’s not a checked exception silently swallowed.
+
+3. **Confirm proxy setup**
+
+   * Is your bean managed by Spring? (`@Service`, `@Component`)
+   * Is the method public?
+
+4. **Check transaction manager**
+
+   * Multiple datasources? Ensure the right `PlatformTransactionManager` is configured.
+
+5. **Self-invocation issue**
+
+   * If calling inside same class, extract to another service or use `AopContext.currentProxy()`.
+
+✅ **Interview-ready one-liner summary**:
+
+> "`@Transactional` works by creating proxies around your beans and delegating to a `PlatformTransactionManager`. By default, it rolls back only on unchecked exceptions. Common issues with rollback happen due to checked exceptions, self-invocation, wrong propagation, or catching exceptions without rethrowing. The right fix depends on propagation settings, exception type, and proxy visibility."
+------------------------------------------------------------------------------------------------------------------------------------------
+Describe how you would secure a RESTful API using Spring Security, JWT (JSON Web Tokens), and OAuth2. How would you handle both authentication and authorization, and what are the trade-offs of using a stateless approach? 
+>This is another **core Spring Boot interview question** — they’re testing if you know **API security end-to-end**. Let’s break it down into **Authentication, Authorization, Statelessness, and Trade-offs** 👇
+
+---
+
+## 🔹 1. Securing RESTful APIs with Spring Security, JWT & OAuth2
+
+### **Authentication (Who are you?)**
+
+* **Username/Password Login (or via OAuth2 provider like Google, Azure AD, Okta):**
+
+  1. Client sends credentials (`/login`) → Spring Security validates against DB or OAuth2 provider.
+  2. If valid → generate a **JWT token** with:
+
+     * User ID
+     * Roles/authorities
+     * Expiration timestamp
+     * Signed using secret (`HS256`) or private key (`RS256`).
+  3. Token returned to client → client stores it (usually in HTTP header or secure storage).
+
+* **Subsequent Requests:**
+
+  * Client sends `Authorization: Bearer <JWT>` header.
+  * Spring Security filter validates:
+
+    * Signature (to ensure token isn’t tampered).
+    * Expiry.
+    * Authorities → mapped into `SecurityContext`.
+
+---
+
+### **Authorization (What can you do?)**
+
+* Once `SecurityContext` has user roles, Spring Security enforces rules:
+
+  * **At endpoint level:**
+
+    ```java
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/users")
+    public List<User> getAllUsers() { ... }
+    ```
+  * **At URL level (Security config):**
+
+    ```java
+    http.authorizeHttpRequests()
+        .requestMatchers("/admin/**").hasRole("ADMIN")
+        .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+        .anyRequest().authenticated();
+    ```
+  * **At method level:** `@PreAuthorize`, `@PostAuthorize`, `@Secured`.
+
+---
+
+### **OAuth2 Integration**
+
+* Instead of storing credentials yourself:
+
+  * Use **Spring Security OAuth2 Client**.
+  * Delegate login to Google, GitHub, Azure AD, Okta, etc.
+  * API still issues JWT internally (or uses provider’s access token).
+* Benefits: No password handling, industry-standard flows, easier SSO.
+
+---
+
+## 🔹 2. Stateless Approach with JWT
+
+* **Stateless** = Server does not store session or authentication state.
+* Each request must contain all authentication info (JWT in header).
+* Server just validates token → no session lookup needed.
+
+**Spring setup:**
+
+```java
+http
+  .csrf().disable()
+  .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+  .and()
+  .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+```
+
+---
+
+## 🔹 3. Trade-offs of Stateless JWT Approach
+
+### ✅ Advantages
+
+* **Scalability**: No sticky sessions → easy horizontal scaling (good for microservices).
+* **Performance**: No DB lookup needed for each request (just token validation).
+* **Decoupling**: Works well in distributed environments, API gateways, mobile apps.
+
+### ❌ Challenges
+
+1. **Token Revocation**
+
+   * Once a JWT is issued, you can’t “kill” it easily until expiry.
+   * Workaround → use short-lived access tokens + refresh tokens, or maintain a token blacklist (introduces some state).
+
+2. **Token Size**
+
+   * JWT can be large (contains claims), increasing bandwidth overhead.
+
+3. **Security Risks**
+
+   * If stolen, token is valid until expiry → need HTTPS, short TTL, refresh token rotation.
+
+4. **Complexity**
+
+   * OAuth2 adds complexity (authorization server, consent, refresh flow).
+   * JWT alone is simpler but less feature-rich.
+
+---
+
+## 🔹 4. High-Level Flow (Interview Whiteboard Friendly)
+
+1. **Client → Auth Server**
+
+   * Login with credentials / OAuth2 flow.
+   * Auth Server returns **JWT access token** (+ refresh token if using OAuth2).
+
+2. **Client → API**
+
+   * Sends `Authorization: Bearer <JWT>` header.
+   * API (Spring Security + JWT filter) validates token.
+   * If valid → extracts roles, grants access.
+   * If not → `401 Unauthorized`.
+
+3. **API → Resource**
+
+   * Business logic executed securely with user context.
+
+---
+
+✅ **Interview-ready one-liner summary**:
+
+> “I’d secure the REST API using Spring Security filters with JWT tokens for stateless authentication. Authentication is done via login or OAuth2 providers, and authorization is enforced with roles/authorities at the endpoint or method level. Stateless JWT improves scalability but brings challenges like token revocation, which can be mitigated using refresh tokens or token blacklists.”
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Below is a **clean, interview-friendly, and complete set of answers** to all your questions.
+I have grouped answers into **conceptual (Spring)** and **Java-8 coding questions**.
+
+---
+
+ 
+# Questions**✅ **1. How to implement a Payment Gateway?**
+
+A general approach (platform-agnostic):
+
+### **Steps:**
+
+1. **Choose a payment provider**
+   Razorpay, Stripe, Paytm, PayU, CashFree, etc.
+
+2. **Create an order from backend** (Java/Spring Boot)
+
+   * Call payment gateway API to generate a payment order.
+   * Save order info in your DB.
+
+3. **Send order ID to frontend**
+   Frontend uses order-id + payment UI widget from gateway.
+
+4. **User completes payment on gateway UI**
+
+5. **Gateway sends callback/webhook to your backend**
+
+   * Contains payment-id, order-id, signature.
+   * You must **verify signature**.
+
+6. **Mark order status in DB**
+   success / failed / pending.
+
+### **Security**
+
+* Never store card details → use tokenization provided by gateway.
+* Store only:
+
+  * last 4 digits
+  * masked card number
+  * payment ID
+  * customer name, amount, timestamp
+* Use HTTPS, signature verification, and OAuth/secret key rotation.
+
+---
+
+# ✅ **2. How to store customer sensitive account data?**
+
+### **Do NOT store plaintext sensitive data.**
+
+### **Sensitive data examples:**
+
+* Bank account number
+* Debit/credit card
+* Aadhaar/PAN
+* CVV (NEVER ALLOWED)
+
+### **Secure Storage Techniques**
+
+1. **Encryption at rest (AES-256)**
+   Use:
+
+   * Jasypt
+   * Spring Cloud Vault
+   * Hashicorp Vault
+
+2. **Masking**
+   Store like:
+
+   ```
+   A/C: XXXXX1234
+   ```
+
+3. **Hashing (for non-reversible data)**
+   For passwords → bcrypt, scrypt, Argon2.
+
+4. **PCI-DSS compliance** for card handling.
+
+---
+
+# ✅ **3. What is `@ComponentScan` in Spring?**
+
+`@ComponentScan` tells Spring **where to find beans** annotated with:
+
+* `@Component`
+* `@Service`
+* `@Repository`
+* `@Controller`
+
+### Example:
+
+```java
+@SpringBootApplication
+@ComponentScan(basePackages = "com.example")
+public class App {
+}
+```
+
+It **automatically detects** classes and registers them in Spring ApplicationContext.
+
+---
+
+# ✅ **4. Find numbers starting with 1 using Streams**
+
+List: `11, 18, 20, 24, 85, 66, 135`
+
+```java
+List<Integer> list = Arrays.asList(11, 18, 20, 24, 85, 66, 135);
+List<Integer> result = list.stream()
+        .map(String::valueOf)
+        .filter(s -> s.startsWith("1"))
+        .map(Integer::valueOf)
+        .toList();
+
+System.out.println(result); // [11, 18, 135]
+```
+
+---
+
+# 🧑‍💼 **Employee Questions**
+
+Assume:
+
+```java
+class Employee {
+    int id;
+    String name;
+    int age;
+    String gender;
+    double salary;
+    String department;
+}
+```
+
+---
+
+# ✅ **5(a). Count male and female employees**
+
+```java
+Map<String, Long> genderCount =
+        employees.stream()
+                .collect(Collectors.groupingBy(Employee::getGender, Collectors.counting()));
+```
+
+---
+
+# ✅ **5(b). Average salary based on gender**
+
+```java
+Map<String, Double> averageSalary =
+        employees.stream()
+                .collect(Collectors.groupingBy(Employee::getGender,
+                        Collectors.averagingDouble(Employee::getSalary)));
+```
+
+---
+
+# ✅ **6. Sum of even and odd numbers using Stream**
+
+```java
+int sumEven = list.stream().filter(n -> n % 2 == 0).mapToInt(n -> n).sum();
+int sumOdd  = list.stream().filter(n -> n % 2 != 0).mapToInt(n -> n).sum();
+```
+
+---
+
+# ✅ **7. Find duplicate elements using Streams**
+
+```java
+Set<Integer> duplicates = list.stream()
+        .filter(i -> Collections.frequency(list, i) > 1)
+        .collect(Collectors.toSet());
+```
+
+Better performance:
+
+```java
+Set<Integer> set = new HashSet<>();
+Set<Integer> dup = list.stream()
+        .filter(n -> !set.add(n))
+        .collect(Collectors.toSet());
+```
+
+---
+
+# ✅ **8. Compare two arrays ignoring order**
+
+```java
+boolean same = Arrays.stream(arr1).sorted().equals(
+               Arrays.stream(arr2).sorted());
+```
+
+Or:
+
+```java
+boolean same = Arrays.equals(
+        Arrays.stream(arr1).sorted().toArray(),
+        Arrays.stream(arr2).sorted().toArray());
+```
+
+---
+
+# ✅ **9. Remove all occurrences of a character from string**
+
+```java
+String result = str.replace(String.valueOf(ch), "");
+```
+
+---
+
+# ✅ **10. Find special characters in a string**
+
+```java
+String specials = str.replaceAll("[a-zA-Z0-9]", "");
+```
+
+---
+
+# ✅ **11. Check if two strings are rotations**
+
+```java
+boolean rotation = (s1.length() == s2.length()) &&
+                   ((s1 + s1).contains(s2));
+```
+
+---
+
+# ✅ **12. Find missing number in array**
+
+For 1…n:
+
+```java
+int n = arr.length + 1;
+int expectedSum = n * (n + 1) / 2;
+int actualSum = Arrays.stream(arr).sum();
+int missing = expectedSum - actualSum;
+```
+
+---
+
+# ✅ **13. Convert first half lowercase and second half uppercase**
+
+```java
+int mid = str.length() / 2;
+String result = str.substring(0, mid).toLowerCase()
+               + str.substring(mid).toUpperCase();
+```
+
+---
+
+# 🏢 **Java 8 Employee + Department Questions**
+
+---
+
+# ✅ **14. Highest paid employee in each department**
+
+```java
+Map<String, Optional<Employee>> highest =
+        employees.stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment,
+                        Collectors.maxBy(Comparator.comparingDouble(Employee::getSalary))));
+```
+
+---
+
+# ✅ **15. Words starting with vowels**
+
+```java
+List<String> vowelWords = words.stream()
+        .filter(w -> w.matches("(?i)^[aeiou].*"))
+        .toList();
+```
+
+---
+
+# ✅ **16. Employee count in each department**
+
+```java
+Map<String, Long> deptCounts =
+        employees.stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment, Collectors.counting()));
+```
+
+---
+
+# ✅ **17. Print active & inactive employees**
+
+Assume: `"active"` or `"inactive"`
+
+```java
+Map<String, List<Employee>> status =
+        employees.stream()
+                .collect(Collectors.groupingBy(Employee::getStatus));
+```
+
+---
+
+# ✅ **18. Print employee details per department**
+
+```java
+Map<String, List<Employee>> deptWise =
+        employees.stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment));
+```
+
+---
+
+# ✅ **19. Max salary / min salary**
+
+```java
+Optional<Employee> maxSal = employees.stream()
+        .max(Comparator.comparingDouble(Employee::getSalary));
+
+Optional<Employee> minSal = employees.stream()
+        .min(Comparator.comparingDouble(Employee::getSalary));
+```
+
+---
+
+# ✅ **21. Sum of all elements in a list**
+
+```java
+int sum = list.stream().mapToInt(Integer::intValue).sum();
+```
+
+---
+
+# 🎉 Done!
+
+If you want, I can prepare **practice test PDF**, **short answers for interviews**, or **mock interview questions** specifically for **Java + Spring Boot + Angular**.
+
+Below is a **clean, interview-friendly, and complete set of answers** to all your questions.
+I have grouped answers into **conceptual (Spring)** and **Java-8 coding questions**.
+
+---
+
+# ✅ **1. How to implement a Payment Gateway?**
+
+A general approach (platform-agnostic):
+
+### **Steps:**
+
+1. **Choose a payment provider**
+   Razorpay, Stripe, Paytm, PayU, CashFree, etc.
+
+2. **Create an order from backend** (Java/Spring Boot)
+
+   * Call payment gateway API to generate a payment order.
+   * Save order info in your DB.
+
+3. **Send order ID to frontend**
+   Frontend uses order-id + payment UI widget from gateway.
+
+4. **User completes payment on gateway UI**
+
+5. **Gateway sends callback/webhook to your backend**
+
+   * Contains payment-id, order-id, signature.
+   * You must **verify signature**.
+
+6. **Mark order status in DB**
+   success / failed / pending.
+
+### **Security**
+
+* Never store card details → use tokenization provided by gateway.
+* Store only:
+
+  * last 4 digits
+  * masked card number
+  * payment ID
+  * customer name, amount, timestamp
+* Use HTTPS, signature verification, and OAuth/secret key rotation.
+
+---
+
+# ✅ **2. How to store customer sensitive account data?**
+
+### **Do NOT store plaintext sensitive data.**
+
+### **Sensitive data examples:**
+
+* Bank account number
+* Debit/credit card
+* Aadhaar/PAN
+* CVV (NEVER ALLOWED)
+
+### **Secure Storage Techniques**
+
+1. **Encryption at rest (AES-256)**
+   Use:
+
+   * Jasypt
+   * Spring Cloud Vault
+   * Hashicorp Vault
+
+2. **Masking**
+   Store like:
+
+   ```
+   A/C: XXXXX1234
+   ```
+
+3. **Hashing (for non-reversible data)**
+   For passwords → bcrypt, scrypt, Argon2.
+
+4. **PCI-DSS compliance** for card handling.
+
+---
+
+# ✅ **3. What is `@ComponentScan` in Spring?**
+
+`@ComponentScan` tells Spring **where to find beans** annotated with:
+
+* `@Component`
+* `@Service`
+* `@Repository`
+* `@Controller`
+
+### Example:
+
+```java
+@SpringBootApplication
+@ComponentScan(basePackages = "com.example")
+public class App {
+}
+```
+
+It **automatically detects** classes and registers them in Spring ApplicationContext.
+
+---
+
+# ✅ **4. Find numbers starting with 1 using Streams**
+
+List: `11, 18, 20, 24, 85, 66, 135`
+
+```java
+List<Integer> list = Arrays.asList(11, 18, 20, 24, 85, 66, 135);
+List<Integer> result = list.stream()
+        .map(String::valueOf)
+        .filter(s -> s.startsWith("1"))
+        .map(Integer::valueOf)
+        .toList();
+
+System.out.println(result); // [11, 18, 135]
+```
+
+---
+
+# 🧑‍💼 **Employee Questions**
+
+Assume:
+
+```java
+class Employee {
+    int id;
+    String name;
+    int age;
+    String gender;
+    double salary;
+    String department;
+}
+```
+
+---
+
+# ✅ **5(a). Count male and female employees**
+
+```java
+Map<String, Long> genderCount =
+        employees.stream()
+                .collect(Collectors.groupingBy(Employee::getGender, Collectors.counting()));
+```
+
+---
+
+# ✅ **5(b). Average salary based on gender**
+
+```java
+Map<String, Double> averageSalary =
+        employees.stream()
+                .collect(Collectors.groupingBy(Employee::getGender,
+                        Collectors.averagingDouble(Employee::getSalary)));
+```
+
+---
+
+# ✅ **6. Sum of even and odd numbers using Stream**
+
+```java
+int sumEven = list.stream().filter(n -> n % 2 == 0).mapToInt(n -> n).sum();
+int sumOdd  = list.stream().filter(n -> n % 2 != 0).mapToInt(n -> n).sum();
+```
+
+---
+
+# ✅ **7. Find duplicate elements using Streams**
+
+```java
+Set<Integer> duplicates = list.stream()
+        .filter(i -> Collections.frequency(list, i) > 1)
+        .collect(Collectors.toSet());
+```
+
+Better performance:
+
+```java
+Set<Integer> set = new HashSet<>();
+Set<Integer> dup = list.stream()
+        .filter(n -> !set.add(n))
+        .collect(Collectors.toSet());
+```
+
+---
+
+# ✅ **8. Compare two arrays ignoring order**
+
+```java
+boolean same = Arrays.stream(arr1).sorted().equals(
+               Arrays.stream(arr2).sorted());
+```
+
+Or:
+
+```java
+boolean same = Arrays.equals(
+        Arrays.stream(arr1).sorted().toArray(),
+        Arrays.stream(arr2).sorted().toArray());
+```
+
+---
+
+# ✅ **9. Remove all occurrences of a character from string**
+
+```java
+String result = str.replace(String.valueOf(ch), "");
+```
+
+---
+
+# ✅ **10. Find special characters in a string**
+
+```java
+String specials = str.replaceAll("[a-zA-Z0-9]", "");
+```
+
+---
+
+# ✅ **11. Check if two strings are rotations**
+
+```java
+boolean rotation = (s1.length() == s2.length()) &&
+                   ((s1 + s1).contains(s2));
+```
+
+---
+
+# ✅ **12. Find missing number in array**
+
+For 1…n:
+
+```java
+int n = arr.length + 1;
+int expectedSum = n * (n + 1) / 2;
+int actualSum = Arrays.stream(arr).sum();
+int missing = expectedSum - actualSum;
+```
+
+---
+
+# ✅ **13. Convert first half lowercase and second half uppercase**
+
+```java
+int mid = str.length() / 2;
+String result = str.substring(0, mid).toLowerCase()
+               + str.substring(mid).toUpperCase();
+```
+
+---
+
+# 🏢 **Java 8 Employee + Department Questions**
+
+---
+
+# ✅ **14. Highest paid employee in each department**
+
+```java
+Map<String, Optional<Employee>> highest =
+        employees.stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment,
+                        Collectors.maxBy(Comparator.comparingDouble(Employee::getSalary))));
+```
+
+---
+
+# ✅ **15. Words starting with vowels**
+
+```java
+List<String> vowelWords = words.stream()
+        .filter(w -> w.matches("(?i)^[aeiou].*"))
+        .toList();
+```
+
+---
+
+# ✅ **16. Employee count in each department**
+
+```java
+Map<String, Long> deptCounts =
+        employees.stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment, Collectors.counting()));
+```
+
+---
+
+# ✅ **17. Print active & inactive employees**
+
+Assume: `"active"` or `"inactive"`
+
+```java
+Map<String, List<Employee>> status =
+        employees.stream()
+                .collect(Collectors.groupingBy(Employee::getStatus));
+```
+
+---
+
+# ✅ **18. Print employee details per department**
+
+```java
+Map<String, List<Employee>> deptWise =
+        employees.stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment));
+```
+
+---
+
+# ✅ **19. Max salary / min salary**
+
+```java
+Optional<Employee> maxSal = employees.stream()
+        .max(Comparator.comparingDouble(Employee::getSalary));
+
+Optional<Employee> minSal = employees.stream()
+        .min(Comparator.comparingDouble(Employee::getSalary));
+```
+
+---
+
+# ✅ **21. Sum of all elements in a list**
+
+```java
+int sum = list.stream().mapToInt(Integer::intValue).sum();
+```
+
+---
+
+# 🎉 Done!
+
+If you want, I can prepare **practice test PDF**, **short answers for interviews**, or **mock interview questions** specifically for **Java + Spring Boot + Angular**.
+
+
+How Hashset and hashmap works. What is time complexity of each
